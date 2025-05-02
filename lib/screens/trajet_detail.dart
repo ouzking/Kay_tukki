@@ -8,7 +8,8 @@ class TrajetDetailPage extends StatelessWidget {
   final String trajetPrix;
   final String trajetBusInfo;
 
-  TrajetDetailPage({
+  const TrajetDetailPage({
+    super.key,
     required this.trajetCompagnie,
     required this.trajetDepart,
     required this.trajetArrivee,
@@ -20,47 +21,113 @@ class TrajetDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[100],
       appBar: AppBar(
         title: const Text('Détails du trajet'),
-        backgroundColor: Colors.blue,
+        backgroundColor: Colors.indigo[900],
+        foregroundColor: Colors.white,
+        elevation: 3,
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Compagnie: $trajetCompagnie',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        padding: const EdgeInsets.all(20.0),
+        child: Card(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          elevation: 4,
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  trajetCompagnie,
+                  style: const TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 20),
+                Row(
+                  children: [
+                    const Icon(Icons.departure_board, color: Colors.indigo),
+                    const SizedBox(width: 8),
+                    Text(
+                      'Départ : $trajetDepart',
+                      style: const TextStyle(fontSize: 16),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                Row(
+                  children: [
+                    const Icon(Icons.location_on, color: Colors.indigo),
+                    const SizedBox(width: 8),
+                    Text(
+                      'Arrivée : $trajetArrivee',
+                      style: const TextStyle(fontSize: 16),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                Row(
+                  children: [
+                    const Icon(Icons.date_range, color: Colors.indigo),
+                    const SizedBox(width: 8),
+                    Text(
+                      'Date & heure : $trajetDateHeure',
+                      style: const TextStyle(fontSize: 16),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                Row(
+                  children: [
+                    const Icon(Icons.directions_bus, color: Colors.indigo),
+                    const SizedBox(width: 8),
+                    Text(
+                      'Bus : $trajetBusInfo',
+                      style: const TextStyle(fontSize: 16),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 20),
+                Row(
+                  children: [
+                    const Icon(Icons.price_check, color: Colors.indigo),
+                    const SizedBox(width: 8),
+                    Text(
+                      'Prix total : $trajetPrix F',
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+                const Spacer(),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton.icon(
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/paiement');
+                    },
+                    icon: const Icon(Icons.shopping_cart_checkout),
+                    label: const Text('Réserver ce billet'),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.indigo[900],
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      textStyle: const TextStyle(fontSize: 16),
+                    ),
+                  ),
+                ),
+              ],
             ),
-            SizedBox(height: 16),
-            Text('Départ: $trajetDepart', style: TextStyle(fontSize: 16)),
-            Text('Arrivée: $trajetArrivee', style: TextStyle(fontSize: 16)),
-            SizedBox(height: 16),
-            Text(
-              'Date et heure: $trajetDateHeure',
-              style: TextStyle(fontSize: 16),
-            ),
-            SizedBox(height: 16),
-            Text('Bus: $trajetBusInfo', style: TextStyle(fontSize: 16)),
-            SizedBox(height: 16),
-            Text(
-              'Prix total: $trajetPrix',
-              style: TextStyle(fontSize: 16, color: Colors.green),
-            ),
-            Spacer(),
-            ElevatedButton(
-              onPressed: () {
-                // Action de réservation
-                Navigator.pushNamed(
-                  context,
-                  '/paiement',
-                ); // Assurez-vous de définir cette route
-              },
-              child: const Text('Réserver ce billet'),
-              style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
-            ),
-          ],
+          ),
         ),
       ),
     );

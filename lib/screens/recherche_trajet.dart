@@ -1,106 +1,162 @@
 import 'package:flutter/material.dart';
 
-class RechercheTrajetPage extends StatefulWidget {
+import '../models/trajet.dart';
+import 'detail_trajet.dart'; // assure-toi que le fichier existe
+
+class RechercheTrajetPage extends StatelessWidget {
   const RechercheTrajetPage({super.key});
 
   @override
-  State<RechercheTrajetPage> createState() => _RechercheTrajetPageState();
-}
-
-class _RechercheTrajetPageState extends State<RechercheTrajetPage> {
-  final _formKey = GlobalKey<FormState>();
-  String depart = '';
-  String arrivee = '';
-  DateTime? dateDepart;
-  int nombrePlaces = 1;
-
-  @override
   Widget build(BuildContext context) {
+    final trajets = [
+      Trajet(
+        depart: 'Dakar',
+        arrivee: 'Ziguinchor',
+        date: '15/05/2025',
+        places: 3,
+        prix: 15000,
+        heure: '08:00',
+      ),
+      Trajet(
+        depart: 'Thiès',
+        arrivee: 'Kaolack',
+        date: '15/05/2025',
+        places: 2,
+        prix: 10000,
+        heure: '10:30',
+      ),
+    ];
+
     return Scaffold(
-      appBar: AppBar(title: const Text('Trouver un trajet 🚌')),
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        title: const Text('Résultats de recherche'),
+        backgroundColor: Colors.indigo[900],
+        foregroundColor: Colors.white,
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: ListView(
-            children: [
-              TextFormField(
-                decoration: const InputDecoration(
-                  labelText: 'Ville de départ',
-                  border: OutlineInputBorder(),
-                ),
-                onChanged: (val) => depart = val,
-              ),
-              const SizedBox(height: 16),
-              TextFormField(
-                decoration: const InputDecoration(
-                  labelText: 'Ville d’arrivée',
-                  border: OutlineInputBorder(),
-                ),
-                onChanged: (val) => arrivee = val,
-              ),
-              const SizedBox(height: 16),
-              ListTile(
-                title: Text(
-                  dateDepart == null
-                      ? 'Choisir une date de départ'
-                      : 'Départ : ${dateDepart!.day}/${dateDepart!.month}/${dateDepart!.year}',
-                ),
-                trailing: const Icon(Icons.calendar_today),
-                onTap: () async {
-                  final date = await showDatePicker(
-                    context: context,
-                    initialDate: DateTime.now(),
-                    firstDate: DateTime.now(),
-                    lastDate: DateTime.now().add(const Duration(days: 365)),
-                  );
-                  if (date != null) {
-                    setState(() {
-                      dateDepart = date;
-                    });
-                  }
-                },
-              ),
-              const SizedBox(height: 16),
-              DropdownButtonFormField<int>(
-                value: nombrePlaces,
-                decoration: const InputDecoration(
-                  labelText: 'Nombre de places',
-                  border: OutlineInputBorder(),
-                ),
-                items:
-                    List.generate(10, (index) => index + 1)
-                        .map(
-                          (e) => DropdownMenuItem(value: e, child: Text('$e')),
-                        )
-                        .toList(),
-                onChanged: (val) {
-                  if (val != null) setState(() => nombrePlaces = val);
-                },
-              ),
-              const SizedBox(height: 24),
-              ElevatedButton(
-                onPressed: () {
-                  if (_formKey.currentState!.validate() && dateDepart != null) {
-                    // TODO: Envoi vers la page des résultats avec les données
-                    Navigator.pushNamed(context, '/resultats');
-                  } else {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Veuillez remplir tous les champs.'),
+        child:
+            trajets.isEmpty
+                ? const Center(
+                  child: Text(
+                    'Aucun trajet trouvé.',
+                    style: TextStyle(fontSize: 18, color: Colors.grey),
+                  ),
+                )
+                : ListView.builder(
+                  itemCount: trajets.length,
+                  itemBuilder: (context, index) {
+                    final trajet = trajets[index];
+                    return Card(
+                      elevation: 4,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      margin: const EdgeInsets.only(bottom: 16),
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              '${trajet.depart} ➜ ${trajet.arrivee}',
+                              style: const TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.indigo,
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            Row(
+                              children: [
+                                const Icon(
+                                  Icons.calendar_today,
+                                  size: 18,
+                                  color: Colors.grey,
+                                ),
+                                const SizedBox(width: 8),
+                                Text('Date : ${trajet.date}'),
+                                const Spacer(),
+                                const Icon(
+                                  Icons.access_time,
+                                  size: 18,
+                                  color: Colors.grey,
+                                ),
+                                const SizedBox(width: 4),
+                                Text('Départ : ${trajet.heure}'),
+                              ],
+                            ),
+                            const SizedBox(height: 8),
+                            Row(
+                              children: [
+                                const Icon(
+                                  Icons.chair_alt_outlined,
+                                  size: 18,
+                                  color: Colors.grey,
+                                ),
+                                const SizedBox(width: 8),
+                                Text('Places : ${trajet.places}'),
+                                const Spacer(),
+                                const Icon(
+                                  Icons.monetization_on,
+                                  size: 18,
+                                  color: Colors.grey,
+                                ),
+                                const SizedBox(width: 4),
+                                Text(
+                                  '${trajet.prix} FCFA',
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 12),
+                            Align(
+                              alignment: Alignment.centerRight,
+                              child: ElevatedButton.icon(
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder:
+                                          (_) =>
+                                              DetailTrajetPage(trajet: trajet),
+                                    ),
+                                  );
+                                },
+                                icon: const Icon(
+                                  Icons.directions_bus,
+                                  color: Colors.white,
+                                ),
+                                label: const Text(
+                                  'Réserver maintenant',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.indigo[900],
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 20,
+                                    vertical: 12,
+                                  ),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  elevation: 6,
+                                  shadowColor: Colors.black54,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     );
-                  }
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.green,
-                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  },
                 ),
-                child: const Text('Rechercher', style: TextStyle(fontSize: 18)),
-              ),
-            ],
-          ),
-        ),
       ),
     );
   }

@@ -27,6 +27,7 @@ class ForgotPasswordPage extends StatelessWidget {
                       decoration: const InputDecoration(
                         labelText: 'Email ou numéro de téléphone',
                         border: OutlineInputBorder(),
+                        prefixIcon: Icon(Icons.mail),
                       ),
                     ),
                   ),
@@ -36,12 +37,20 @@ class ForgotPasswordPage extends StatelessWidget {
                       // logique d'envoi du code
                     },
                     style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.transparent,
+                      elevation: 0,
                       padding: const EdgeInsets.symmetric(
                         horizontal: 12,
                         vertical: 20,
                       ),
                     ),
-                    child: const Text("Vérifier"),
+                    child: Text(
+                      "Vérifier",
+                      style: TextStyle(
+                        color: Colors.indigo[900],
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -53,6 +62,7 @@ class ForgotPasswordPage extends StatelessWidget {
                 decoration: const InputDecoration(
                   labelText: 'Entrez votre code',
                   border: OutlineInputBorder(),
+                  prefixIcon: Icon(Icons.verified),
                 ),
               ),
               const SizedBox(height: 20),
@@ -64,6 +74,7 @@ class ForgotPasswordPage extends StatelessWidget {
                 decoration: const InputDecoration(
                   labelText: 'Nouveau mot de passe',
                   border: OutlineInputBorder(),
+                  prefixIcon: Icon(Icons.lock_outline),
                 ),
               ),
               const SizedBox(height: 20),
@@ -75,6 +86,7 @@ class ForgotPasswordPage extends StatelessWidget {
                 decoration: const InputDecoration(
                   labelText: 'Confirmez votre mot de passe',
                   border: OutlineInputBorder(),
+                  prefixIcon: Icon(Icons.lock),
                 ),
               ),
               const SizedBox(height: 30),

@@ -15,7 +15,6 @@ import 'screens/recherche_trajet.dart';
 import 'screens/resultats_recherche.dart';
 import 'screens/suivi.dart';
 import 'screens/trajet_detail.dart';
-//import 'pages/dashboard.dart';
 
 void main() {
   runApp(const MyApp());
@@ -37,7 +36,7 @@ class MyApp extends StatelessWidget {
                 const DashboardPage(userName: 'Ousmane'), // à rendre dynamique
         '/recherche': (context) => const RechercheTrajetPage(),
         '/resultats': (context) => const ResultatsRecherchePage(),
-        '/details': (context) => const DetailTrajetPage(),
+        // '/details': (context) => const DetailTrajetPage(), <-- supprimée car nécessite des arguments
         '/trajetDetail':
             (context) => TrajetDetailPage(
               trajetCompagnie: 'Dem Dikk',
@@ -50,8 +49,7 @@ class MyApp extends StatelessWidget {
         '/paiement': (context) => const PaiementPage(),
         '/confirmation': (context) => const ConfirmationPage(),
         '/billet': (context) => const BilletPage(),
-        '/billets':
-            (context) => const BilletPage(), // raccourci depuis dashboard
+        '/billets': (context) => const BilletPage(),
         '/profil': (context) => const ProfilPage(),
         '/compte': (context) => const ProfilPage(),
         '/suivi': (context) => const SuiviPage(),

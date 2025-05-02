@@ -21,23 +21,31 @@ class LoginPage extends StatelessWidget {
                 style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 40),
+
+              // Champ Email / Téléphone
               TextField(
                 controller: emailPhoneController,
                 decoration: const InputDecoration(
                   labelText: 'Email ou numéro de téléphone',
                   border: OutlineInputBorder(),
+                  prefixIcon: Icon(Icons.mail),
                 ),
               ),
               const SizedBox(height: 20),
+
+              // Champ mot de passe
               TextField(
                 controller: passwordController,
+                obscureText: true,
                 decoration: const InputDecoration(
                   labelText: 'Mot de passe',
                   border: OutlineInputBorder(),
+                  prefixIcon: Icon(Icons.lock),
                 ),
-                obscureText: true,
               ),
               const SizedBox(height: 30),
+
+              // Bouton de connexion
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
@@ -58,17 +66,31 @@ class LoginPage extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 16),
+
+              // Liens
               TextButton(
                 onPressed: () {
                   Navigator.pushNamed(context, '/forgot_password');
                 },
-                child: const Text('Mot de passe oublié ?'),
+                child: Text(
+                  'Mot de passe oublié ?',
+                  style: TextStyle(
+                    color: Colors.indigo[900],
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
               ),
               TextButton(
                 onPressed: () {
                   Navigator.pushNamed(context, '/register');
                 },
-                child: const Text("Pas encore de compte ? S'inscrire"),
+                child: Text(
+                  "Pas encore de compte ? S'inscrire",
+                  style: TextStyle(
+                    color: Colors.indigo[900],
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
               ),
             ],
           ),

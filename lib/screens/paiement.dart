@@ -22,6 +22,7 @@ class _PaiementPageState extends State<PaiementPage> {
 
   void _validerPaiement() {
     if (_formKey.currentState!.validate() && selectedMethod.isNotEmpty) {
+      // Simuler un traitement, puis aller à la page de confirmation
       Navigator.pushNamed(context, '/confirmation');
     }
   }
@@ -29,27 +30,33 @@ class _PaiementPageState extends State<PaiementPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Payer mon billet 💳')),
-      body: Padding(
+      appBar: AppBar(
+        title: const Text('Payer mon billet 💳'),
+        backgroundColor: Colors.indigo[900],
+        foregroundColor: Colors.white,
+        elevation: 2,
+      ),
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text(
-              'Choisissez un moyen de paiement :',
-              style: TextStyle(fontSize: 18),
+              'Choisissez un moyen de paiement sécurisé :',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 20),
             Wrap(
-              spacing: 10,
+              spacing: 12,
+              runSpacing: 12,
               children: [
                 _buildOption('Orange Money', Colors.orange),
                 _buildOption('Wave', Colors.blue),
                 _buildOption('Free Money', Colors.red),
-                _buildOption('PayDunya', Colors.green),
+                _buildOption('Western Union', Colors.blueAccent),
               ],
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 30),
             if (selectedMethod.isNotEmpty)
               Form(
                 key: _formKey,
@@ -58,46 +65,74 @@ class _PaiementPageState extends State<PaiementPage> {
                     TextFormField(
                       controller: _numeroController,
                       keyboardType: TextInputType.phone,
-                      decoration: const InputDecoration(
+                      decoration: InputDecoration(
                         labelText: 'Numéro de téléphone',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        filled: true,
+                        fillColor: const Color(0xFFF1F1F1),
+                        prefixIcon: const Icon(Icons.phone),
                       ),
                       validator:
                           (value) =>
-                              value!.isEmpty
+                              value == null || value.isEmpty
                                   ? 'Veuillez entrer le numéro'
                                   : null,
                     ),
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 20),
                     TextFormField(
                       controller: _pinController,
                       obscureText: true,
-                      decoration: const InputDecoration(labelText: 'Code PIN'),
+                      decoration: InputDecoration(
+                        labelText: 'Code PIN',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        filled: true,
+                        fillColor: const Color(0xFFF1F1F1),
+                        prefixIcon: const Icon(Icons.lock),
+                      ),
                       validator:
                           (value) =>
-                              value!.isEmpty ? 'Veuillez entrer le PIN' : null,
+                              value == null || value.isEmpty
+                                  ? 'Veuillez entrer le PIN'
+                                  : null,
                     ),
                   ],
                 ),
               ),
-            const Spacer(),
+            const SizedBox(height: 30),
             if (selectedMethod.isNotEmpty)
               Center(
-                child: ElevatedButton(
+                child: ElevatedButton.icon(
                   onPressed: _validerPaiement,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.green,
+                  icon: const Icon(Icons.payment, color: Colors.white),
+                  label: const Text(
+                    'Payer maintenant',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
-                  child: const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 30, vertical: 12),
-                    child: Text('Payer maintenant'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.green[700],
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 40,
+                      vertical: 16,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    elevation: 5,
                   ),
                 ),
               ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 20),
             const Center(
               child: Text(
                 '✅ Paiement sécurisé',
-                style: TextStyle(color: Colors.grey),
+                style: TextStyle(
+                  color: Colors.grey,
+                  fontStyle: FontStyle.italic,
+                ),
               ),
             ),
           ],
@@ -108,14 +143,23 @@ class _PaiementPageState extends State<PaiementPage> {
 
   Widget _buildOption(String method, Color color) {
     return ChoiceChip(
-      label: Text(method),
+      label: Text(
+        method,
+        style: const TextStyle(
+          color: Colors.white,
+          fontWeight: FontWeight.w500,
+        ),
+      ),
       selected: selectedMethod == method,
       onSelected: (_) {
         setState(() {
           selectedMethod = method;
         });
       },
-      selectedColor: color.withOpacity(0.2),
+      selectedColor: color,
+      backgroundColor: color.withOpacity(0.3),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+      labelStyle: const TextStyle(fontSize: 14),
     );
   }
 }
