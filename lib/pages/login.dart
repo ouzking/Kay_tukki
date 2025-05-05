@@ -1,39 +1,60 @@
 import 'package:flutter/material.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final emailPhoneController = TextEditingController();
-    final passwordController = TextEditingController();
+  State<LoginPage> createState() => _LoginPageState();
+}
 
+class _LoginPageState extends State<LoginPage> {
+  final emailPhoneController = TextEditingController();
+  final passwordController = TextEditingController();
+  String _userType = 'Utilisateur'; // Valeur par défaut
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Center(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 24.0),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Text(
-                'Authentification',
+                'Connexion',
                 style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
               ),
-              const SizedBox(height: 40),
+              const SizedBox(height: 30),
 
-              // Champ Email / Téléphone
+              DropdownButtonFormField<String>(
+                value: _userType,
+                decoration: const InputDecoration(
+                  labelText: 'Type de compte',
+                  border: OutlineInputBorder(),
+                ),
+                items:
+                    ['Utilisateur', 'Compagnie'].map((type) {
+                      return DropdownMenuItem(value: type, child: Text(type));
+                    }).toList(),
+                onChanged: (value) {
+                  setState(() {
+                    _userType = value!;
+                  });
+                },
+              ),
+              const SizedBox(height: 20),
+
               TextField(
                 controller: emailPhoneController,
                 decoration: const InputDecoration(
-                  labelText: 'Email ou numéro de téléphone',
+                  labelText: 'Email ou téléphone',
                   border: OutlineInputBorder(),
-                  prefixIcon: Icon(Icons.mail),
+                  prefixIcon: Icon(Icons.person),
                 ),
               ),
               const SizedBox(height: 20),
 
-              // Champ mot de passe
               TextField(
                 controller: passwordController,
                 obscureText: true,
@@ -45,12 +66,15 @@ class LoginPage extends StatelessWidget {
               ),
               const SizedBox(height: 30),
 
-              // Bouton de connexion
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.pushReplacementNamed(context, '/dashboard');
+                    if (_userType == 'Utilisateur') {
+                      Navigator.pushReplacementNamed(context, '/dashboard');
+                    } else {
+                      Navigator.pushReplacementNamed(context, '/admin_home');
+                    }
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.blue[900],
@@ -65,31 +89,21 @@ class LoginPage extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 10),
 
-              // Liens
               TextButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/forgot_password');
-                },
+                onPressed:
+                    () => Navigator.pushNamed(context, '/forgot_password'),
                 child: Text(
-                  'Mot de passe oublié ?',
-                  style: TextStyle(
-                    color: Colors.indigo[900],
-                    fontWeight: FontWeight.w600,
-                  ),
+                  "Mot de passe oublié ?",
+                  style: TextStyle(color: Colors.indigo[900]),
                 ),
               ),
               TextButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/register');
-                },
+                onPressed: () => Navigator.pushNamed(context, '/register'),
                 child: Text(
-                  "Pas encore de compte ? S'inscrire",
-                  style: TextStyle(
-                    color: Colors.indigo[900],
-                    fontWeight: FontWeight.w600,
-                  ),
+                  "Créer un compte",
+                  style: TextStyle(color: Colors.indigo[900]),
                 ),
               ),
             ],

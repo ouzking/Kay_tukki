@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import 'admin/admin_home.dart';
+import 'admin/ajouter_trajet_page.dart';
+import 'admin/liste_trajets_page.dart';
 import 'pages/dashboard.dart';
 import 'pages/forgot_password.dart';
 import 'pages/login.dart';
@@ -8,10 +11,10 @@ import 'pages/welcome.dart';
 import 'screens/alertes.dart';
 import 'screens/billet.dart';
 import 'screens/confirmation.dart';
-import 'screens/detail_trajet.dart';
 import 'screens/paiement.dart';
 import 'screens/profil.dart';
 import 'screens/recherche_trajet.dart';
+import 'screens/reservations_page.dart';
 import 'screens/resultats_recherche.dart';
 import 'screens/suivi.dart';
 import 'screens/trajet_detail.dart';
@@ -26,9 +29,26 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Bus Booking App',
+      title: 'Kay Tukki',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(primarySwatch: Colors.green),
+
+      // 🌞 Thème clair
+      theme: ThemeData.light().copyWith(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
+        useMaterial3: true,
+      ),
+
+      // 🌚 Thème sombre
+      darkTheme: ThemeData.dark().copyWith(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
+        useMaterial3: true,
+        scaffoldBackgroundColor: Colors.black,
+        cardColor: Colors.grey[900],
+      ),
+
+      // 🌓 Thème basé sur le système
+      themeMode: ThemeMode.system,
+
       initialRoute: '/welcome',
       routes: {
         '/':
@@ -36,7 +56,6 @@ class MyApp extends StatelessWidget {
                 const DashboardPage(userName: 'Ousmane'), // à rendre dynamique
         '/recherche': (context) => const RechercheTrajetPage(),
         '/resultats': (context) => const ResultatsRecherchePage(),
-        // '/details': (context) => const DetailTrajetPage(), <-- supprimée car nécessite des arguments
         '/trajetDetail':
             (context) => TrajetDetailPage(
               trajetCompagnie: 'Dem Dikk',
@@ -59,6 +78,10 @@ class MyApp extends StatelessWidget {
         '/register': (context) => const RegisterPage(),
         '/forgot_password': (context) => const ForgotPasswordPage(),
         '/dashboard': (context) => const DashboardPage(userName: 'Ousmane'),
+        '/admin_home': (context) => const AdminHomePage(),
+        '/reservations': (context) => const ReservationsPage(),
+        '/ajouter_trajet': (context) => const AjouterTrajetPage(),
+        '/liste_trajets': (context) => const ListeTrajetsPage(),
       },
     );
   }
