@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/trajet.dart';
-import 'detail_trajet.dart'; // assure-toi que le fichier existe
+import 'detail_trajet.dart';
 
 class RechercheTrajetPage extends StatelessWidget {
   const RechercheTrajetPage({super.key});
@@ -157,6 +157,61 @@ class RechercheTrajetPage extends StatelessWidget {
                     );
                   },
                 ),
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => CovoiturageTrajetsPage(trajets: trajets),
+            ),
+          );
+        },
+        label: const Text(
+          'Voir les trajets en covoiturage',
+          style: TextStyle(color: Colors.white),
+        ),
+        icon: const Icon(Icons.list, color: Colors.white),
+        backgroundColor: Colors.indigo[900],
+      ),
+    );
+  }
+}
+
+// Nouvelle page qui affiche les trajets de covoiturage
+class CovoiturageTrajetsPage extends StatelessWidget {
+  final List<Trajet> trajets;
+
+  const CovoiturageTrajetsPage({super.key, required this.trajets});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Tous les trajets en covoiturage'),
+        backgroundColor: Colors.indigo[900],
+        foregroundColor: Colors.white,
+      ),
+      body: ListView.builder(
+        itemCount: trajets.length,
+        itemBuilder: (context, index) {
+          final trajet = trajets[index];
+          return ListTile(
+            leading: const Icon(Icons.directions_car),
+            title: Text('${trajet.depart} ➜ ${trajet.arrivee}'),
+            subtitle: Text(
+              'Le ${trajet.date} à ${trajet.heure} • ${trajet.places} places • ${trajet.prix} FCFA',
+            ),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => DetailTrajetPage(trajet: trajet),
+                ),
+              );
+            },
+          );
+        },
       ),
     );
   }

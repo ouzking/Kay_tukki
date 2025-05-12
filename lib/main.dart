@@ -11,6 +11,7 @@ import 'pages/welcome.dart';
 import 'screens/alertes.dart';
 import 'screens/billet.dart';
 import 'screens/confirmation.dart';
+import 'screens/covoiturage_form.dart';
 import 'screens/paiement.dart';
 import 'screens/profil.dart';
 import 'screens/recherche_trajet.dart';
@@ -82,6 +83,7 @@ class MyApp extends StatelessWidget {
         '/reservations': (context) => const ReservationsPage(),
         '/ajouter_trajet': (context) => const AjouterTrajetPage(),
         '/liste_trajets': (context) => const ListeTrajetsPage(),
+        '/covoiturage_form': (context) => const CovoiturageFormPage(),
       },
     );
   }

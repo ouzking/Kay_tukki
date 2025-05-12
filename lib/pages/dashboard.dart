@@ -1,4 +1,4 @@
-import 'package:animate_do/animate_do.dart'; // Add this package in pubspec.yaml
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 
 class DashboardPage extends StatelessWidget {
@@ -73,9 +73,21 @@ class DashboardPage extends StatelessWidget {
                   routeName: '/alertes',
                 ),
               ),
+              const SizedBox(height: 24),
+              FadeInDown(
+                delay: const Duration(milliseconds: 800),
+                duration: const Duration(milliseconds: 500),
+                child: _buildButton(
+                  context,
+                  icon: Icons.car_rental,
+                  title: '🚗 Publier un covoiturage',
+                  routeName:
+                      '/covoiturage_form', // 👉 assure-toi que cette route est bien ajoutée
+                ),
+              ),
               const Spacer(),
               FadeInUp(
-                delay: const Duration(milliseconds: 800),
+                delay: const Duration(milliseconds: 1000),
                 duration: const Duration(milliseconds: 600),
                 child: _buildButton(
                   context,
